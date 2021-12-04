@@ -6,6 +6,9 @@ const inputDireccion = document.querySelector("#direccion")
 
 
 // funciones auxiliares 
+
+
+//funciones para boton borrar
 const crearBotonesBorrar = () => {
   const botonesBorrar = document.querySelectorAll(".boton-borrar")
     
@@ -29,6 +32,58 @@ const borrarUsuario = (id) => {
   })
 }
 
+// funciones auxiliares de boton editar
+
+const editarUsuario = (id) => {
+  console.log("Usuario editado", id)
+  fetch(`https://601da02bbe5f340017a19d60.mockapi.io/users/${id}`, {
+    method: "PUT"
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    console.log(data)
+    obtenerUsuarios()
+  })
+}
+
+const crearBotonesEditar = () => {
+  const botonesEditar = document.querySelectorAll(".boton-editar")
+    
+  for (let i = 0; i < botonesEditar.length; i++) {
+    botonesEditar[i].onclick = () => {
+     const idDelUsuarioEditar = botonesEditar[i].dataset.id  
+     const formEditar = `  
+      <form id="form-Editar" class="form-editar">
+      <label>Nombre
+      <input type="text" id="nombre">
+      </label>
+      <label>Email
+      <input type="email" id="email">
+      </label>
+      <label>Telefono
+      <input type="number" id="telefono">
+      </label>
+      <label>Direccion
+      <input type="text" id="direccion">
+      </label>
+
+      <input type="submit" value="Editar nuevo usuario">
+      </form>
+      `
+      
+      tabla.innerHTML = formEditar 
+      //seleccionar el nuevo formulario creado
+      //hacerme evento onsubmit 
+      //adentro de ese evento leer los valores del form
+      //Mandarselo a la funcion editarUsuario 
+  //    editarUsuario(idDelUsuarioEditar)
+    }
+
+    }   
+  }
+
+
+
 const crearTablaHTML = (data) => {
   const tabla = document.querySelector("#tabla")
   const html = data.reduce((acc, curr) => {
@@ -40,7 +95,7 @@ const crearTablaHTML = (data) => {
       <td>${curr.phone}</td>
       <td>
       <button class="boton-borrar" data-id="${curr.id}">Borrar usuario</button>
-      <button>Editar usuario</button>
+      <button class="boton-editar" data-id="${curr.id}">Editar usuario</button>
       </td>
     </tr>
     `
@@ -56,7 +111,10 @@ const crearTablaHTML = (data) => {
 
     tabla.innerHTML = html
     crearBotonesBorrar()
+    
+    crearBotonesEditar()
 }
+
 
 
 const obtenerUsuarios = () => {
