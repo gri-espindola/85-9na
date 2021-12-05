@@ -3,6 +3,7 @@ const inputNombre = document.querySelector("#nombre")
 const inputEmail = document.querySelector("#email")
 const inputTelefono = document.querySelector("#telefono")
 const inputDireccion = document.querySelector("#direccion")
+const formEditar = document.querySelector ("#form-editar")
 
 
 // funciones auxiliares 
@@ -34,6 +35,7 @@ const borrarUsuario = (id) => {
 
 // funciones auxiliares de boton editar
 
+
 const editarUsuario = (id) => {
   console.log("Usuario editado", id)
   fetch(`https://601da02bbe5f340017a19d60.mockapi.io/users/${id}`, {
@@ -52,8 +54,7 @@ const crearBotonesEditar = () => {
   for (let i = 0; i < botonesEditar.length; i++) {
     botonesEditar[i].onclick = () => {
      const idDelUsuarioEditar = botonesEditar[i].dataset.id  
-     const formEditar = `  
-      <form id="form-Editar" class="form-editar">
+     const dataEditar = `  
       <label>Nombre
       <input type="text" id="nombre">
       </label>
@@ -68,19 +69,22 @@ const crearBotonesEditar = () => {
       </label>
 
       <input type="submit" value="Editar nuevo usuario">
-      </form>
       `
       
-      tabla.innerHTML = formEditar 
+      tabla.innerHTML = dataEditar 
       //seleccionar el nuevo formulario creado
       //hacerme evento onsubmit 
       //adentro de ese evento leer los valores del form
       //Mandarselo a la funcion editarUsuario 
   //    editarUsuario(idDelUsuarioEditar)
     }
-
+    formEditar.onsubmit = (e) =>{
+      dataEditar(idDelUsuarioEditar)
+    }
+  
     }   
   }
+
 
 
 
